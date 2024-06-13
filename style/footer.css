@@ -1,0 +1,52 @@
+footer {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    border-top: solid 2px rgb(255, 145, 77);
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+img[alt="infos"] {
+    height: 70%;
+    margin-left: 1%;
+}
+
+.social {
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+    gap: 1%;
+    align-items: center;
+}
+
+.social a {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a img{
+    height: 80%;
+}
+
+.creds {
+    position: absolute;
+    height: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#credits {
+    position: relative;
+    top: 82%;
+    color: black;
+    text-decoration: none;
+    font-size: 2.5vw;
+}
