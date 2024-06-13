@@ -39,6 +39,10 @@ main {
   z-index: 4;
 }
 
+.layer h2 {
+  text-align: center;
+}
+
 .layer img[alt="confettis"] {
   position: relative;
   width: 100%;
@@ -62,9 +66,10 @@ main {
   align-items: center;
 }
 
-.box img[alt="frites"] {
+.box img {
   position: relative;
   height: 40%;
+  width: 90%;
 }
 
 main h1 {

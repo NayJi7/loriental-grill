@@ -59,4 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((error) => console.error("Erreur:", error));
   });
+
+  setTimeout(function () {
+    location.reload();
+  }, 10000);
 });

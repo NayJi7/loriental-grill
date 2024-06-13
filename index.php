@@ -15,6 +15,7 @@
         foreach ($avis as $avi) {
             if ($_SESSION['user']['id'] == $avi['user_id']) {
                 $useravis = $avi;
+                break;
             }
         }
     }
@@ -47,16 +48,54 @@
 
             <?php if(isset($_SESSION['user']) && $_SESSION['user']['haswon'] == 1): ?>
                 <div class="layer">
-                    <?php if($_SESSION['user']['prize'] == "rien"): ?>
+                    <?php if($_SESSION['user']['prize'] == "rien"): //erreur ?> 
                     <div class="box">
-                        <h1>Dommage !</h1>    
+                    </div>
+
+                    <?php elseif($_SESSION['user']['prize'] == "perdu"): ?>
+                    <div class="box">
+                        <h1>Dommage <?php echo $_SESSION['user']['username'];?> ! <br>Tu gagneras une <br> prochaine fois</h1> 
+                        <h2>Tu restes le bienvenu dans ton restaurants préféré quand même ! Recommande le à tes amis, ils te donneront peut-être une frite si ils gagnent ;)</h2>
+                        <img src="../source/perdu.png" alt="perdu">
                     </div>
 
                     <?php elseif($_SESSION['user']['prize'] == "frites"): ?>
                     <div class="box">
-                        <h1>Bravo ! Tu as gagné une portion de frites</h1> 
-                        <h2>Récupère ton cadeau dans ton restaurant préféré avant le</h2>
-                        <img src="../source/frites.png" alt="frites">   
+                        <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné une portion <br> de frites</h1> 
+                        <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
+                        <h1>ID : <?php echo $useravis['id']; ?></h1>
+                        <img src="../source/frites.png" alt="frites">
+                        <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
+                    </div>
+                    <img src="../source/confettis.gif" alt="confettis">
+
+                    <?php elseif($_SESSION['user']['prize'] == "burger"): ?>
+                    <div class="box">
+                        <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné un burger !</h1> 
+                        <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
+                        <h1>ID : <?php echo $useravis['id']; ?></h1>
+                        <img src="../source/burger.png" alt="burger">
+                        <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
+                    </div>
+                    <img src="../source/confettis.gif" alt="confettis">
+
+                    <?php elseif($_SESSION['user']['prize'] == "brochettes"): ?>
+                    <div class="box">
+                        <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné une brochette !</h1> 
+                        <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
+                        <h1>ID : <?php echo $useravis['id']; ?></h1>
+                        <img src="../source/brochettes.png" alt="brochettes">
+                        <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
+                    </div>
+                    <img src="../source/confettis.gif" alt="confettis">
+
+                    <?php elseif($_SESSION['user']['prize'] == "canette"): ?>
+                    <div class="box">
+                        <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné une canette !</h1> 
+                        <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
+                        <h1>ID : <?php echo $useravis['id']; ?></h1>
+                        <img src="../source/canette.png" alt="canette">
+                        <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
                     </div>
                     <img src="../source/confettis.gif" alt="confettis">
 

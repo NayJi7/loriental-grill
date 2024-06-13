@@ -52,12 +52,14 @@ if ($angle !== null) {
     $date->modify('+30 days');
     $datestring = $date->format('d/m/Y');
 
-    $addavis = $mysqlClient->prepare('INSERT INTO avis(user_id, user_email, prize, recup) VALUES (:user_id, :user_email, :prize, :recup)');
+    $addavis = $mysqlClient->prepare('INSERT INTO avis(id, user_id, user_email, prize, recup, user_name) VALUES (:id, :user_id, :user_email, :prize, :recup, :user_name)');
     $addavis->execute([
+        'id'=> $_SESSION['user']['id'].random_int(1000000000, 9999999999),
         'user_id'=> $_SESSION['user']['id'],
         'user_email'=> $_SESSION['user']['email'],
         'prize'=> $prize,
         'recup'=> $datestring,
+        'user_name'=> $_SESSION['user']['username'],
     ]);
 
     $_SESSION['user']['prize'] = $prize;

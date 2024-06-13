@@ -57,22 +57,34 @@
 
                 <?php if(isset($_GET['log'])): ?>
                     <div style="z-index: 4;" class="container login">
-                        <h1>Merci ! Entre tes informations <br>pour tourner la roue</h1>
+                        <h1>Entre tes informations <br> ci-dessous</h1>
 
                         <?php if (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_6b") :?>
                             <h2 class="bad">N'oublie pas de renseigner tes informations :)</h2>
-                        <?php elseif (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_6x") :?>
-                            <h2 class="bad">Ce compte a déjà joué</h2>
+                        <?php elseif (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_6e") :?>
+                            <h2 class="bad">Aucun utilisateur trouvé</h2>
                         <?php elseif (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_6a") :?>
-                            <h2 class="bad">Ce mail est déjà utilisé avec un autre nom</h2>
+                            <h2 class="bad">Ce mail est utilisé avec un autre nom</h2>
+                        <?php elseif (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_12") :?>
+                            <h2 class="basic">Connecte toi pour revoir ta récompense</h2>
                         <?php else :?>
                             <h2 class="basic">Renseigne le bon pseudo google pour <br> pouvoir récupérer ta récompense</h2>
                         <?php endif ;?>
-                        <form class="loginform" action="login.php" method="post">
-                            <input type="text" name="name" placeholder="Pseudo google">
-                            <input type="email" name="email" placeholder="Email google">
-                            <button type="submit">Je valide</button>
-                        </form> 
+                        
+                        <?php if($_GET['log'] == "zxfvwll22_12"): ?>
+                            <form class="loginform" action="onlyconnect.php"  method="post">
+                                <input type="text" name="name"  placeholder="Pseudo google">
+                                <input type="email" name="email"    placeholder="Email google">
+                                <button type="submit">Je valide</button>
+                            </form> 
+
+                        <?php else: ?>
+                            <form class="loginform" action="login.php"  method="post">
+                                <input type="text" name="name"  placeholder="Pseudo google">
+                                <input type="email" name="email"    placeholder="Email google">
+                                <button type="submit">Je valide</button>
+                            </form> 
+                        <?php endif;?>
                     </div>
 
                     <?php else :?>
@@ -81,10 +93,9 @@
 
                         <?php if (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_6b") :?>
                             <h2 class="bad">N'oublie pas de renseigner tes informations :)</h2>
-                        <?php elseif (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_6x") :?>
                             <h2 class="bad">Ce compte a déjà joué</h2>
                         <?php elseif (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_6a") :?>
-                            <h2 class="bad">Ce mail est déjà utilisé avec un autre nom</h2>
+                            <h2 class="bad">Ce mail est utilisé avec un autre nom</h2>
                         <?php else :?>
                             <h2 class="basic">Renseigne le bon pseudo google pour <br> pouvoir récupérer ta récompense</h2>
                         <?php endif ;?>
