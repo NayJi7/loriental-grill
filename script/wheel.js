@@ -1,9 +1,9 @@
-document.addEventListener("DOMContentLoaded",()=>{
-    const go = document.querySelector(".go")
-    const wheel = document.querySelector(".wheel")
+document.addEventListener("DOMContentLoaded", () => {
+  const go = document.querySelector(".go");
+  const wheel = document.querySelector(".wheel");
 
-    go.addEventListener("click", () => {
-        /*
+  go.addEventListener("click", () => {
+    /*
             0deg [360] = brochettes 
             60deg [360] = perdu
             120deg [360] = frites
@@ -14,33 +14,49 @@ document.addEventListener("DOMContentLoaded",()=>{
             3 tours minimum = 3*360 = 1080deg min
         */
 
-        // pourcentages de chance :
+    // pourcentages de chance :
 
-        let rand = Math.floor(Math.random() * 100 + 1)
-        let rot = 1080
+    let rand = Math.floor(Math.random() * 100 + 1);
+    let rot = 1080;
 
-        if (rand<=18) { // brochettes 18%
-            rot += 0
-        }
-        else if (rand<=38) { // perdu 20%
-            rot += 60
-        }
-        else if (rand<=56) { // frites 18%
-            rot += 120
-        }
-        else if (rand<=74) { // canette 18%
-            rot += 180
-        }
-        else if (rand<=94) { // perdu 20%
-            rot += 240
-        }
-        else if (rand<=100) { // burger 6%
-            rot += 300
-        }
+    if (rand <= 18) {
+      // brochettes 18%
+      rot += 0;
+    } else if (rand <= 38) {
+      // perdu 20%
+      rot += 60;
+    } else if (rand <= 56) {
+      // frites 18%
+      rot += 120;
+    } else if (rand <= 74) {
+      // canette 18%
+      rot += 180;
+    } else if (rand <= 94) {
+      // perdu 20%
+      rot += 240;
+    } else if (rand <= 100) {
+      // burger 6%
+      rot += 300;
+    }
 
-        wheel.style.transform = "rotate("+rot+"deg)"
-        go.disabled = true
-        go.classList.add("disabled")
-        go.innerHTML = "Ca tourne !"
+    wheel.style.transform = "rotate(" + rot + "deg)";
+    go.disabled = true;
+    go.classList.add("disabled");
+    go.innerHTML = "Ca tourne !";
+
+    // Envoyer l'angle tourné au serveur
+    fetch("/php/angle_handler.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ angle: rot }),
     })
-})
+      .then((response) => response.text())
+      .then((data) => {
+        console.log(data);
+        // Vous pouvez mettre à jour l'interface utilisateur ici en fonction de la réponse du serveur
+      })
+      .catch((error) => console.error("Erreur:", error));
+  });
+});

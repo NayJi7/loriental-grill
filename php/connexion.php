@@ -20,8 +20,6 @@
         <link rel="stylesheet" href="../style/header.css">
         <link rel="stylesheet" href="../style/footer.css">
 
-        <script type="text/javascript" src="script/wheel.js"></script>
-
         <!-- Site conçu pour être utilisé sur mobile -->
     </head>
     <body>
@@ -49,27 +47,13 @@
                     <h2>(On vous voit les tricheurs, allez mettre un avis.)</h2>
                     <?php if(!isset($_SESSION['user'])): ?>
                         <a id="avis" target="_blank" href="https://search.google.com/local/writereview?placeid=ChIJ7wuFy3pp5kcR_E_MT96550Q"><img src="../source/avis.png" alt="avis"></a>
+                        <img src="../source/loading.gif" alt="loading">
                     <?php else: ?>
                         <form id="avis2" action="connexion.php" method="get">
                             <button type="submit"><img src="../source/avis.png" alt="avis"></button>
                         </form>
                     <?php endif; ?>
                 </div>
-
-                <script>
-
-                    const containeravis = document.querySelector(".container.avis")
-                    const containerwait = document.querySelector(".container.wait")
-                    const containerlogin = document.querySelector(".container.login")
-                    const avis = document.querySelector("#avis3")
-
-                    avis.addEventListener("click", (event)=> {
-                        containeravis.style.transform = "translateX(-150%)"
-                        setTimeout(function(){
-                            containerwait.style.transform = "translateX(150%)"
-                        },10000)
-                    })
-                </script>
 
                 <?php if(isset($_GET['log'])): ?>
                     <div style="z-index: 4;" class="container login">
@@ -112,10 +96,20 @@
                     </div>
 
                 <?php endif; ?>
-                
-
-
         </main>
         <?php require_once(__DIR__."/footer.php") ?>
+
+        <script>
+            const containeravis = document.querySelector(".container.avis")
+            const containerwait = document.querySelector(".container.wait")
+            const containerlogin = document.querySelector(".container.login")
+            const avis = document.querySelector("#avis3")
+            avis.addEventListener("click", (event)=> {
+                containeravis.style.transform = "translateX(-150%)"
+                setTimeout(function(){
+                    containerwait.style.transform = "translateX(150%)"
+            },10000)
+            })
+        </script>
     </body>
 </html>
