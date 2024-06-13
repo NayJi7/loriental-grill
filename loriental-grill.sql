@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 13 juin 2024 à 14:36
+-- Généré le : ven. 14 juin 2024 à 00:07
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -28,10 +28,23 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `avis` (
-  `id` int(11) NOT NULL,
+  `id` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `user_email` int(11) NOT NULL
+  `user_email` varchar(100) NOT NULL,
+  `prize` varchar(100) NOT NULL,
+  `recup` varchar(100) DEFAULT NULL,
+  `récupéré` int(11) NOT NULL DEFAULT 0,
+  `user_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `avis`
+--
+
+INSERT INTO `avis` (`id`, `user_id`, `user_email`, `prize`, `recup`, `récupéré`, `user_name`) VALUES
+('608518285580', 60, 'kamamassara@hotmail.fr', 'brochettes', '13/07/2024', 0, 'terrak'),
+('613314100405', 61, 'e.aterrak@gmail.com', 'frites', '13/07/2024', 0, 'terrak'),
+('626137079022', 62, 'terrakadam@cy-tech.fr', 'burger', '13/07/2024', 0, 'terrak');
 
 -- --------------------------------------------------------
 
@@ -44,16 +57,18 @@ CREATE TABLE `users` (
   `username` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `haswon` int(11) NOT NULL DEFAULT 0,
-  `ip` varchar(11) DEFAULT NULL
+  `prize` varchar(100) NOT NULL,
+  `récupéré` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `haswon`, `ip`) VALUES
-(38, 'noah', 'sarah.terrak@gmail.com', 0, NULL),
-(39, 'Adam', 'adamterrak1@gmail.com', 0, '127.0.0.1');
+INSERT INTO `users` (`id`, `username`, `email`, `haswon`, `prize`, `récupéré`) VALUES
+(60, 'terrak', 'kamamassara@hotmail.fr', 1, 'brochettes', 0),
+(61, 'terrak', 'e.aterrak@gmail.com', 1, 'frites', 0),
+(62, 'terrak', 'terrakadam@cy-tech.fr', 1, 'burger', 0);
 
 --
 -- Index pour les tables déchargées
@@ -76,16 +91,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT pour la table `avis`
---
-ALTER TABLE `avis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
