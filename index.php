@@ -18,6 +18,23 @@
                 break;
             }
         }
+
+        if ($_SESSION['user']['haswon'] == 1) {
+            // Inclure la bibliothèque phpqrcode
+            include 'phpqrcode/qrlib.php';
+            
+            // Le contenu du QR code
+            $content = 'https://www.example1.com?id='.$useravis['id'];
+            
+            // Le chemin où le fichier image du QR code sera sauvegardé
+            $file = 'source/qrcode.png';
+            
+            // La taille du QR code
+            $size = 10;
+            
+            // Générer le QR code et l'enregistrer en tant qu'image
+            QRcode::png($content, $file, QR_ECLEVEL_L, $size);
+        }
     }
 ?>
 
@@ -43,6 +60,10 @@
         <!-- Site conçu pour être utilisé sur mobile -->
     </head>
     <body>
+        <div class="error">
+            <h1>Ce site ne fonctionne qu'en orientation portrait, tournez votre téléphone pour continuer</h1>
+        </div>
+        
         <?php require_once(__DIR__."/php/headerext.php"); ?>
         <main>
 
@@ -56,48 +77,47 @@
                     <div class="box">
                         <h1>Dommage <?php echo $_SESSION['user']['username'];?> ! <br>Tu gagneras une <br> prochaine fois</h1> 
                         <h2>Tu restes le bienvenu dans ton restaurants préféré quand même ! Recommande le à tes amis, ils te donneront peut-être une frite si ils gagnent ;)</h2>
-                        <img src="../source/perdu.png" alt="perdu">
+                        <img src="./source/perdu.png" alt="perdu">
                     </div>
 
                     <?php elseif($_SESSION['user']['prize'] == "frites"): ?>
                     <div class="box">
                         <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné une portion <br> de frites</h1> 
-                        <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
-                        <h1>ID : <?php echo $useravis['id']; ?></h1>
-                        <img src="../source/frites.png" alt="frites">
+                        <h2>Présente ce qr code et récupère ton cadeau <br> dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
+                        <img src="./source/qrcode.png" alt="qrcode">
                         <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
                     </div>
-                    <img src="../source/confettis.gif" alt="confettis">
+                    <img src="./source/confettis.gif" alt="confettis">
 
                     <?php elseif($_SESSION['user']['prize'] == "burger"): ?>
                     <div class="box">
                         <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné un burger !</h1> 
                         <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
                         <h1>ID : <?php echo $useravis['id']; ?></h1>
-                        <img src="../source/burger.png" alt="burger">
+                        <img src="./source/qrcode.png" alt="qrcode">
                         <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
                     </div>
-                    <img src="../source/confettis.gif" alt="confettis">
+                    <img src="./source/confettis.gif" alt="confettis">
 
                     <?php elseif($_SESSION['user']['prize'] == "brochettes"): ?>
                     <div class="box">
                         <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné une brochette !</h1> 
                         <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
                         <h1>ID : <?php echo $useravis['id']; ?></h1>
-                        <img src="../source/brochettes.png" alt="brochettes">
+                        <img src="./source/qrcode.png" alt="qrcode">
                         <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
                     </div>
-                    <img src="../source/confettis.gif" alt="confettis">
+                    <img src="./source/confettis.gif" alt="confettis">
 
                     <?php elseif($_SESSION['user']['prize'] == "canette"): ?>
                     <div class="box">
                         <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné une canette !</h1> 
                         <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
                         <h1>ID : <?php echo $useravis['id']; ?></h1>
-                        <img src="../source/canette.png" alt="canette">
+                        <img src="./source/qrcode.png" alt="qrcode">
                         <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
                     </div>
-                    <img src="../source/confettis.gif" alt="confettis">
+                    <img src="./source/confettis.gif" alt="confettis">
 
                     <?php endif;?>
                 </div>

@@ -66,11 +66,10 @@ main {
   align-items: center;
 }
 
-.box img {
-  position: relative;
-  height: 40%;
-  width: 90%;
+.box img[alt="qrcode"] {
+  width: 70%;
 }
+
 
 main h1 {
   text-align: center;
@@ -120,4 +119,27 @@ img[alt="pointer"] {
 
 .wheelbtn.disabled {
   background-color: rgb(188, 24, 35);
+}
+
+.error {
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+@media  (orientation:landscape) {
+  .error {
+    display: flex;
+  }
+
+  main {
+    display: none;
+  }
 }

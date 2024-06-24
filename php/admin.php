@@ -39,6 +39,10 @@
         <!-- Site conçu pour être utilisé sur mobile -->
     </head>
     <body>
+        <div class="error">
+            <h1>Ce site ne fonctionne qu'en orientation portrait, tournez votre téléphone pour continuer</h1>
+        </div>
+
         <?php require_once(__DIR__."/header.php") ?>
         <main>
             <video autoplay loop muted id="bgvideo">
@@ -52,29 +56,182 @@
                     <button class="adminbtn users">Utilisateurs</button>
                 </div>
 
-                <div class="container arecup">
-                    <button class="backbtn arecup"><img src="../source/cross.png" alt="cross"></button>
+                <?php if(isset($_GET['searcharecup'])) :?>
+                    <div style="transform: translateY(0);" class="container arecup">
+                        <button class="backbtn arecup"><img src="../source/cross.png" alt="cross"></button>
 
-                    <form action="admin.php" method="get">
-                        <input id="search" type="search" name="search" placeholder="Rechercher">
-                    </form>
+                        <form action="admin.php" method="get">
+                            <input id="search" type="search" name="searcharecup" placeholder="Rechercher">
+                        </form>
 
-                    <div class="list">
-                        <?php foreach( $avisarecup as $avis ): ?>
-                            <div class="single">
-                                
-                            </div>
-                        <?php endforeach;?>
+                        <div class="list">
+                                <?php foreach( $avisarecup as $avis ): ?>
+                                <?php 
+                                    $super = $avis['user_name'].', '.$avis['user_email'].', '.$avis['user_id'].', '.$avis['id'].', '.$avis['prize'].', '.$avis['recup'];
+                                    $utilisateur = $avis['user_name'].', '.$avis['user_email'].', '.$avis['user_id'];
+                                    $commande = $avis['id'].', '.$avis['prize'].', '.$avis['recup'];
+                                    $utilisateur = str_replace($_GET['searcharecup'],'<mark>'.$_GET['searcharecup'].'</mark>',$utilisateur);
+                                    $commande = str_replace($_GET['searcharecup'],'<mark>'.$_GET['searcharecup'].'</mark>',$commande);
+
+                                    if (strpos($super,$_GET['searcharecup']) !== false) :?>
+                                        <div class="single">
+                                            <h4>Utilisateur :</h4>
+                                            <?php echo $utilisateur;?>
+                                            <br>
+                                            <h4>Commande :</h4>
+                                            <?php echo $commande;?>
+                                        </div>
+                                    <?php endif;?>
+                            <?php endforeach;?>
+                        </div>
                     </div>
-                </div>
 
-                <div class="container dejarecup">
-                    <button class="backbtn dejarecup"><img src="../source/cross.png" alt="cross"></button>
-                </div>
+                <?php else:?>
+                    <div class="container arecup">
+                        <button class="backbtn arecup"><img src="../source/cross.png" alt="cross"></button>
 
-                <div class="container users">
-                    <button class="backbtn users"><img src="../source/cross.png" alt="cross"></button>
-                </div>
+                        <form action="admin.php" method="get">
+                            <input id="search" type="search" name="searcharecup" placeholder="Rechercher">
+                        </form>
+
+                        <div class="list">
+                            <?php foreach( $avisarecup as $avis ): ?>
+                                <div class="single">
+                                    <h4>Utilisateur :</h4>
+                                    <?php echo $avis['user_name'].',';?>
+                                    <?php echo $avis['user_email'].',';?>
+                                    <?php echo $avis['user_id'];?>
+                                    <br>
+                                    <h4>Commande :</h4>
+                                    <?php echo $avis['id'].',';?>
+                                    <?php echo $avis['prize'];?>
+                                </div>
+                            <?php endforeach;?>
+                        </div>
+                    </div>  
+                <?php endif;?>
+
+                <?php if(isset($_GET['searchdejarecup'])) :?>
+                    <div style="transform: translateX(0);" class="container dejarecup">
+                        <button class="backbtn dejarecup"><img src="../source/cross.png" alt="cross"></button>
+
+                        <form action="admin.php" method="get">
+                            <input id="search" type="search" name="searchdejarecup" placeholder="Rechercher">
+                        </form>
+
+                        <div class="list">
+                                <?php foreach( $avisdejarecup as $avis ): ?>
+                                <?php 
+                                    $super = $avis['user_name'].', '.$avis['user_email'].', '.$avis['user_id'].', '.$avis['id'].', '.$avis['prize'].', '.$avis['recup'];
+                                    $utilisateur = $avis['user_name'].', '.$avis['user_email'].', '.$avis['user_id'];
+                                    $commande = $avis['id'].', '.$avis['prize'].', '.$avis['recup'];
+                                    $utilisateur = str_replace($_GET['searchdejarecup'],'<mark>'.$_GET['searchdejarecup'].'</mark>',$utilisateur);
+                                    $commande = str_replace($_GET['searchdejarecup'],'<mark>'.$_GET['searchdejarecup'].'</mark>',$commande);
+                                    
+                                    if (strpos($super,$_GET['searchdejarecup']) !== false) :?>
+                                        <div class="single">
+                                            <h4>Utilisateur :</h4>
+                                            <?php echo $utilisateur;?>
+                                            <br>
+                                            <h4>Commande :</h4>
+                                            <?php echo $commande;?>
+                                        </div>
+                                    <?php endif;?>
+                            <?php endforeach;?>
+                        </div>
+                    </div>
+
+                <?php else:?>
+                    <div class="container dejarecup">
+                        <button class="backbtn dejarecup"><img src="../source/cross.png" alt="cross"></button>
+
+                        <form action="admin.php" method="get">
+                            <input id="search" type="search" name="searchdejarecup" placeholder="Rechercher">
+                        </form>
+
+                        <div class="list">
+                            <?php foreach( $avisdejarecup as $avis ): ?>
+                                <div class="single">
+                                    <h4>Utilisateur :</h4>
+                                    <?php echo $avis['user_name'].',';?>
+                                    <?php echo $avis['user_email'].',';?>
+                                    <?php echo $avis['user_id'];?>
+                                    <br>
+                                    <h4>Commande :</h4>
+                                    <?php echo $avis['id'].',';?>
+                                    <?php echo $avis['prize'];?>
+                                </div>
+                            <?php endforeach;?>
+                        </div>
+                    </div>  
+                <?php endif;?>
+
+                <?php if(isset($_GET['searchusers'])) :?>
+                    <div style="transform: translateY(0);" class="container users">
+                        <button class="backbtn users"><img src="../source/cross.png" alt="cross"></button>
+
+                        <form action="admin.php" method="get">
+                            <input id="search" type="search" name="searchusers" placeholder="Rechercher">
+                        </form>
+
+                        <div class="list">
+                                <?php foreach( $users as $user ): ?>
+                                <?php 
+                                    $super = $user['id'].', '.$user['username'].', '.$user['email'].', '.$user['prize'].', '.$user['récupéré'];
+                                    $utilisateur = $user['id'].', '.$user['username'].', '.$user['email'];
+                                    $commande = $user['prize'].', '.$user['récupéré'];
+                                    $utilisateur = str_replace($_GET['searchusers'],'<mark>'.$_GET['searchusers'].'</mark>',$utilisateur);
+                                    $commande = str_replace($_GET['searchusers'],'<mark>'.$_GET['searchusers'].'</mark>',$commande);
+
+                                    if (strpos($super,$_GET['searchusers']) !== false) :?>
+                                        <div class="single">
+                                            <h4>Utilisateur :</h4>
+                                            <?php echo $utilisateur;?>
+                                            <br>
+                                            <h4>Commande :</h4>
+                                            <?php echo $commande;?>
+                                        </div>
+                                    <?php endif;?>
+                            <?php endforeach;?>
+                        </div>
+                    </div>
+
+                <?php else:?>
+                    <div class="container users">
+                        <button class="backbtn users"><img src="../source/cross.png" alt="cross"></button>
+
+                        <form action="admin.php" method="get">
+                            <input id="search" type="search" name="searchusers" placeholder="Rechercher">
+                        </form>
+
+                        <div class="list">
+                            <?php foreach( $users as $user ): ?>
+                                <div class="single">
+                                    <h4>Utilisateur :</h4>
+                                    <?php echo $user['id'].',';?>
+                                    <?php echo $user['username'].',';?>
+                                    <?php echo $user['email'].',';?>
+                                    <br>
+                                    <?php echo $user['prize'].',';?>
+                                    <?php echo 'récup : '.$user['récupéré'];?>
+                                </div>
+                            <?php endforeach;?>
+                        </div>
+                        
+                        <?php 
+                            $adresses = NULL;
+                            foreach ($users as $user) {
+                                $adresses = $adresses.$user['email'];
+                                if ($user != $users[count($users) - 1]) {
+                                    $adresses = $adresses.',';
+                                }
+                            }
+                        ?>
+
+                        <button id="mailbtn"><a href="mailto:<?php echo $adresses;?>">Envoyer un mail aux clients</a></button>
+
+                    </div>  
+                <?php endif;?>
 
         </main>
         <?php require_once(__DIR__."/footer.php") ?>

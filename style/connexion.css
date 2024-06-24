@@ -195,3 +195,26 @@ img[alt="loading"] {
   top: 70%;
   height: 30%;
 }
+
+.error {
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+@media  (orientation:landscape) {
+  .error {
+    display: flex;
+  }
+
+  main {
+    display: none;
+  }
+}

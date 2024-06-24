@@ -23,6 +23,10 @@
         <!-- Site conçu pour être utilisé sur mobile -->
     </head>
     <body>
+        <div class="error">
+            <h1>Ce site ne fonctionne qu'en orientation portrait, tournez votre téléphone pour continuer</h1>
+        </div>
+
         <?php require_once(__DIR__."/header.php") ?>
         <main>
             <video autoplay loop muted id="bgvideo">

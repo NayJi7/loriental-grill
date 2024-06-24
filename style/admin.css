@@ -50,7 +50,7 @@ main {
   display: flex;
   flex-direction: column;
   text-align: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   transition: transform 0.75s ease;
   overflow: hidden;
@@ -61,7 +61,7 @@ main {
 }
 
 .container.arecup {
-  /* transform: translateY(-150%); */
+  transform: translateY(-150%);
   z-index: 1;
 }
 
@@ -73,6 +73,27 @@ main {
 .container.users {
   transform: translateX(-150%);
   z-index: 1;
+}
+
+#mailbtn {
+  font-size: 4.5vw;
+  text-shadow: 3.5px 3.5px white;
+  border: solid 3px black;
+  border-radius: 30px;
+  background-color: rgb(255, 145, 77);
+  text-align: center;
+  font-weight: 600;
+  width: 75%;
+  height: 15vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10%;
+}
+
+#mailbtn a {
+  text-decoration: none;
+  color: black;
 }
 
 .container h1 {
@@ -140,4 +161,42 @@ main {
   margin-bottom: 10%;
   border: solid 5px rgb(255, 145, 77);
   border-radius: 30px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.single {
+  border-bottom: solid 3px black;
+  font-size: 2em;
+  min-height: 20%;
+}
+
+.single h4 {
+  text-align: left;
+  margin-left: 5%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+
+.error {
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+@media  (orientation:landscape) {
+  .error {
+    display: flex;
+  }
+
+  main {
+    display: none;
+  }
 }
