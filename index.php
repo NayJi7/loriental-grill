@@ -6,6 +6,11 @@
 
     require_once(__DIR__."/php/sqlconfig.php"); // Include the database configuration file
 
+    // Fetch all users from the database
+    $userstatement = $mysqlClient->prepare('SELECT * FROM users');
+    $userstatement->execute();
+    $users = $userstatement->fetchAll();
+
     $avistatement = $mysqlClient->prepare('SELECT * FROM avis');
     $avistatement->execute();
     $avis = $avistatement->fetchAll();
@@ -36,6 +41,26 @@
             QRcode::png($content, $file, QR_ECLEVEL_L, $size);
         }
     }
+
+    foreach ($avis as $avi) {
+        $today = new DateTime();
+        $date = DateTime::createFromFormat('j/m/Y', $avi['recup']);
+        if ($date <= $today) {
+            $modifystatement = $mysqlClient->prepare('UPDATE avis  SET récupéré = 2 WHERE id = :id');
+            $modifystatement->execute([
+                'id' => $avi['id'],
+            ]);
+
+            foreach ($users as $user) {
+                if ($avi['user_id'] === $user['id']) {
+                    $updatestatement = $mysqlClient->prepare('UPDATE users  SET récupéré = 2 WHERE id = :id');
+                    $updatestatement->execute([
+                        'id' => $user['id'],
+                    ]);
+                }
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +74,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="style/wheel.css">
+        <link rel="stylesheet" href="style/index.css">
         <link rel="stylesheet" href="style/header.css">
         <link rel="stylesheet" href="style/footer.css">
 
@@ -79,6 +104,22 @@
                         <button id="adminbtn"><a href="./php/admin.php">Mode admin</a></button>
                     </div>
 
+                    <?php elseif($_SESSION['user']['récupéré'] === 1): // déjà récup ?>
+                    <div class="box">
+                        <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as déjà récupéré ton cadeau : <?php echo $_SESSION['user']['prize'];?></h1> 
+                        <img src="./source/<?php echo $_SESSION['user']['prize'];?>.png" alt="prize">
+                        <h2>On espère que tu t'es régalé ! N'hésite pas à revenir manger au restau en invitant tes amis à jouer pour tenter de gagner un burger ! Peut-être qu'ils t'en laisseront un bout ;)</h2>
+                    </div>
+                    <img src="./source/confettis.gif" alt="confettis">
+
+                    <?php elseif($_SESSION['user']['récupéré'] === 2): // temps écoulé ?>
+                    <div class="box">
+                        <h1>Désolé <?php echo $_SESSION['user']['username'];?> ! <br>Le temps pour récupérer <br>ton cadeau est écoulé.</h1> 
+                        <img src="./source/time.png" alt="time">
+                        <h1>Tu avais jusqu'au : <br><?php echo $useravis['recup'];?></h1>
+                        <h2>N'hésite pas à revenir manger au restau en invitant tes amis à jouer pour tenter de gagner un burger !  Peut-être qu'ils t'en laisseront un bout ;)</h2>
+                    </div>
+
                     <?php elseif($_SESSION['user']['prize'] == "perdu"): ?>
                     <div class="box">
                         <h1>Dommage <?php echo $_SESSION['user']['username'];?> ! <br>Tu gagneras une <br> prochaine fois</h1> 
@@ -98,8 +139,7 @@
                     <?php elseif($_SESSION['user']['prize'] == "burger"): ?>
                     <div class="box">
                         <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné un burger !</h1> 
-                        <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
-                        <h1>ID : <?php echo $useravis['id']; ?></h1>
+                        <h2>Présente ce qr code et récupère ton cadeau <br> dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
                         <img src="./source/qrcode.png" alt="qrcode">
                         <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
                     </div>
@@ -108,8 +148,7 @@
                     <?php elseif($_SESSION['user']['prize'] == "brochettes"): ?>
                     <div class="box">
                         <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné une brochette !</h1> 
-                        <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
-                        <h1>ID : <?php echo $useravis['id']; ?></h1>
+                        <h2>Présente ce qr code et récupère ton cadeau <br> dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
                         <img src="./source/qrcode.png" alt="qrcode">
                         <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
                     </div>
@@ -118,8 +157,7 @@
                     <?php elseif($_SESSION['user']['prize'] == "canette"): ?>
                     <div class="box">
                         <h1>Bravo <?php echo $_SESSION['user']['username'];?> ! <br>Tu as gagné une canette !</h1> 
-                        <h2>Prends un screenshot de cette page et récupère <br> ton cadeau dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
-                        <h1>ID : <?php echo $useravis['id']; ?></h1>
+                        <h2>Présente ce qr code et récupère ton cadeau <br> dans ton restaurant préféré avant le <?php echo $useravis['recup']; ?></h2>
                         <img src="./source/qrcode.png" alt="qrcode">
                         <h3>*Valable uniquement pour une commande de 10€ minimum</h3>   
                     </div>

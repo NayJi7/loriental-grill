@@ -22,9 +22,20 @@
         $updatestatement->execute([
             'id' => $_POST['id'],
         ]);
+
+        foreach ($avis as $avi) {
+            if ($avi['id'] === $_POST['id']) {
+                $userstatement = $mysqlClient->prepare('UPDATE users SET récupéré = 1 WHERE id = :id');
+                $userstatement->execute([
+                    'id' => $avi['user_id'],
+                ]);
+                break;
+            }
+        }
         header("Location: ../index.php"); // Account connexion 
     }
 
+    $found = false;
 ?>
 
 <!DOCTYPE html>
@@ -56,10 +67,6 @@
             </video>
 
                 <div class="container">
-                    <?php if(!isset($_GET['id'])) :?>
-                        <h1>Oups ... <br>Ce lien n'a pas l'air valide</h1>
-                    <?php endif;?>
-
                     <?php if(isset($_GET['id'])) :
                         foreach ($avis as $avi) :
                             $today = new DateTime();
@@ -72,40 +79,39 @@
                                 $expired = false;
                             }
 
-                            if($_GET['id'] === $avi['id'] && $avi['récupéré'] === 0 && $expired):?>
-                                <div class="infos">
-                                    <h1><?php echo $avi['user_name'].' n\'a pas pu récupérer : '.$avi['prize'];?></h1>
-                                    <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
-                                    <h2><mark><?php echo 'date limite dépassée : '.$avi['recup'];?></mark></h2>
-                                </div> 
+                            if($_GET['id'] === $avi['id'] && $expired): $found = true;?>
+                                <h1><?php echo $avi['user_name'].', '.$avi['user_email'];?><br><?php echo'n\'a pas pu récupérer : '.$avi['prize'];?></h1>
+                                <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
+                                <h2><mark><?php echo 'date limite dépassée : '.$avi['recup'];?></mark></h2>
+                                <img src="../source/<?php echo $avi['prize'].'.png';?>" alt="prize">
+
+                            <?php elseif($_GET['id'] === $avi['id'] && $avi['prize'] === "perdu"): $found = true;?>
+                                <h1><?php echo $avi['user_name'].', '.$avi['user_email'];?><br><?php echo'a perdu';?></h1>
+                                <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
+                                <img src="../source/<?php echo $avi['prize'].'.png';?>" alt="prize">
+
+                            <?php elseif($_GET['id'] === $avi['id'] && $avi['récupéré'] === 0): $found = true;?>
+                                <h1><?php echo $avi['user_name'].', '.$avi['user_email'];?><br><?php echo'a gagné : '.$avi['prize'];?></h1>
+                                <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
+                                <h2><?php echo 'date limite : '.$avi['recup'];?></h2>
                                 <img src="../source/<?php echo $avi['prize'].'.png';?>" alt="prize">
                                 <form action="getprize.php" method="post">
                                     <button type="submit" name="id" value="<?php echo $avi['id'];?>">Valider</button>
                                 </form>
 
-                            <?php elseif($_GET['id'] === $avi['id'] && $avi['récupéré'] === 0):?>
-                                <div class="infos">
-                                    <h1><?php echo $avi['user_name'].' a gagné : '.$avi['prize'];?></h1>
-                                    <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
-                                    <h2><?php echo 'date limite : '.$avi['recup'];?></h2>
-                                </div>
-                                <img src="../source/<?php echo $avi['prize'].'.png';?>" alt="prize">
-                                <form action="getprize.php" method="post">
-                                    <button type="submit" name="id" value="<?php echo $avi['id'];?>">Valider</button>
-                                </form>
-
-                            <?php elseif($_GET['id'] === $avi['id'] && $avi['récupéré'] === 1):?>
-                                <div class="infos">
-                                    <h1><?php echo $avi['user_name'].' a déjà récupéré : '.$avi['prize'];?></h1>
-                                    <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
-                                    <h2><?php echo 'date limite : '.$avi['recup'];?></h2>
-                                </div>
+                            <?php elseif($_GET['id'] === $avi['id'] && $avi['récupéré'] === 1): $found = true;?>
+                                <h1><?php echo $avi['user_name'].', '.$avi['user_email'];?><br><?php echo'a déjà récupéré : '.$avi['prize'];?></h1>
+                                <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
+                                <h2><?php echo 'date limite : '.$avi['recup'];?></h2>
                                 <img src="../source/<?php echo $avi['prize'].'.png';?>" alt="prize">
 
                             <?php endif;?>
                         <?php endforeach;?>
                     <?php endif;?>
-                        
+
+                    <?php if(!isset($_GET['id']) || $found == false) :?>
+                        <h1>Oups ... <br>Ce lien n'a pas l'air valide</h1>
+                    <?php endif;?>
                 </div>
 
         </main>

@@ -41,6 +41,7 @@ main {
 
 .layer h2 {
   text-align: center;
+  padding: 2%;
 }
 
 .layer img[alt="confettis"] {
@@ -64,6 +65,16 @@ main {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  padding: 2%;
+}
+
+img[alt="prize"] {
+  width: 70%;
+}
+
+img[alt="time"] {
+  width: 70%;
+  transform: rotate(15deg);
 }
 
 .box img[alt="qrcode"] {
@@ -82,8 +93,8 @@ main {
   background-color: rgb(255, 145, 77);
   text-align: center;
   font-weight: 600;
-  width: 60%;
-  height: 8%;
+  width: 70%;
+  height: 13%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,7 +108,7 @@ main {
 
 main h1 {
   text-align: center;
-  font-size: 5vw;
+  font-size: 4.7vw;
   text-shadow: 4px 4px rgb(255, 145, 77);
 }
 

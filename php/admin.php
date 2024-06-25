@@ -16,7 +16,7 @@
     $arecupstatement->execute();
     $avisarecup = $arecupstatement->fetchAll();
 
-    $dejarecupstatement = $mysqlClient->prepare('SELECT * FROM avis WHERE récupéré = 1');
+    $dejarecupstatement = $mysqlClient->prepare('SELECT * FROM avis WHERE récupéré = 1 OR récupéré = 2');
     $dejarecupstatement->execute();
     $avisdejarecup = $dejarecupstatement->fetchAll();
 ?>
@@ -104,7 +104,8 @@
                                     <br>
                                     <h4>Commande :</h4>
                                     <?php echo $avis['id'].',';?>
-                                    <?php echo $avis['prize'];?>
+                                    <?php echo $avis['prize'].',';?>
+                                    <?php echo $avis['recup'];?>
                                 </div>
                             <?php endforeach;?>
                         </div>
@@ -159,7 +160,8 @@
                                     <br>
                                     <h4>Commande :</h4>
                                     <?php echo $avis['id'].',';?>
-                                    <?php echo $avis['prize'];?>
+                                    <?php echo $avis['prize'].',';?>
+                                    <?php echo $avis['recup'];?>
                                 </div>
                             <?php endforeach;?>
                         </div>
@@ -177,9 +179,16 @@
                         <div class="list">
                                 <?php foreach( $users as $user ): ?>
                                 <?php 
-                                    $super = $user['id'].', '.$user['username'].', '.$user['email'].', '.$user['prize'].', '.$user['récupéré'];
+                                    $recup = 'non';
+                                    if ($user['récupéré'] === 0) {
+                                        $recup = 'non';
+                                    }
+                                    else{
+                                        $recup = 'oui';
+                                    }
+                                    $super = $user['id'].', '.$user['username'].', '.$user['email'].', '.$user['prize'].', '.$recup;
                                     $utilisateur = $user['id'].', '.$user['username'].', '.$user['email'];
-                                    $commande = $user['prize'].', '.$user['récupéré'];
+                                    $commande = $user['prize'].', récupéré : '.$recup;
                                     $utilisateur = str_replace($_GET['searchusers'],'<mark>'.$_GET['searchusers'].'</mark>',$utilisateur);
                                     $commande = str_replace($_GET['searchusers'],'<mark>'.$_GET['searchusers'].'</mark>',$commande);
 
@@ -213,22 +222,31 @@
                                     <?php echo $user['email'].',';?>
                                     <br>
                                     <?php echo $user['prize'].',';?>
-                                    <?php echo 'récup : '.$user['récupéré'];?>
+                                    <?php if ($user['récupéré'] === 0) {
+                                        echo 'récupéré : non';
+                                    }
+                                    else{
+                                        echo 'récupéré : oui';
+                                    }?>
                                 </div>
                             <?php endforeach;?>
                         </div>
                         
                         <?php 
                             $adresses = NULL;
+                            $count = 0;
                             foreach ($users as $user) {
-                                $adresses = $adresses.$user['email'];
-                                if ($user != $users[count($users) - 1]) {
-                                    $adresses = $adresses.',';
+                                if ($count >= 1) {
+                                    $adresses = $adresses.$user['email'];
+                                    if ($user != $users[count($users) - 1]) {
+                                        $adresses = $adresses.',';
+                                    }
                                 }
+                                $count++;
                             }
                         ?>
 
-                        <button id="mailbtn"><a href="mailto:<?php echo $adresses;?>">Envoyer un mail aux clients</a></button>
+                        <button id="mailbtn"><a target="_blank" href="mailto:<?php echo $adresses;?>">Envoyer un mail aux clients</a></button>
 
                     </div>  
                 <?php endif;?>

@@ -48,7 +48,7 @@
 
                 <div class="container wait">
                     <h1>Avis en cours de vérification ...</h1>
-                    <h2>(On vous voit les tricheurs, allez mettre un avis.)</h2>
+                    <h2>(Ne trichez pas, on vérifie sur place ça sert à rien)</h2>
                     <?php if(!isset($_SESSION['user'])): ?>
                         <a id="avis" target="_blank" href="https://search.google.com/local/writereview?placeid=ChIJ7wuFy3pp5kcR_E_MT96550Q"><img src="../source/avis.png" alt="avis"></a>
                         <img src="../source/loading.gif" alt="loading">
@@ -72,7 +72,7 @@
                         <?php elseif (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_12") :?>
                             <h2 class="basic">Connecte toi pour revoir ta récompense</h2>
                         <?php else :?>
-                            <h2 class="basic">Renseigne le bon pseudo google pour <br> pouvoir récupérer ta récompense</h2>
+                            <h2 class="basic">Renseigne <mark>ton pseudo et ton email google</mark> pour <br> pouvoir récupérer ta récompense</h2>
                         <?php endif ;?>
                         
                         <?php if($_GET['log'] == "zxfvwll22_12"): ?>
@@ -101,7 +101,7 @@
                         <?php elseif (isset($_GET['log']) && $_GET['log'] == "zxfvwll22_6a") :?>
                             <h2 class="bad">Ce mail est utilisé avec un autre nom</h2>
                         <?php else :?>
-                            <h2 class="basic">Renseigne le bon pseudo google pour <br> pouvoir récupérer ta récompense</h2>
+                            <h2 class="basic">Renseigne <mark>ton pseudo et ton email google</mark> pour <br> pouvoir récupérer ta récompense</h2>
                         <?php endif ;?>
                         <form class="loginform" action="login.php" method="post">
                             <input type="text" name="name" placeholder="Pseudo google">
