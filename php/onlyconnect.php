@@ -15,10 +15,14 @@
 
     $connected = false;
     $foundemail = false;
+    $isadmin = false;
 
     if (isset($_POST['name']) && isset($_POST['email'])) {
         foreach ($users as $user) {
             if ($user['username'] == $_POST['name'] && $user['email'] == $_POST['email']) {
+                if ($user['id'] == 0 && $user['username'] == "root") {
+                    $isadmin = true;
+                }
                 $_SESSION['user'] = $user;
                 $connected = true;
                 header("Location: ../index.php"); // Account connexion 
@@ -29,6 +33,10 @@
                 header("Location: connexion.php?log=zxfvwll22_6a"); // email already in use
                 break;
             }
+        }
+
+        if ($isadmin) {
+            header("Location: ./admin.php");  
         }
 
         if (!$connected && !$foundemail) {

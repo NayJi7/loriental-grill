@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 14 juin 2024 à 00:07
+-- Généré le : mar. 25 juin 2024 à 13:37
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -37,15 +37,6 @@ CREATE TABLE `avis` (
   `user_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `avis`
---
-
-INSERT INTO `avis` (`id`, `user_id`, `user_email`, `prize`, `recup`, `récupéré`, `user_name`) VALUES
-('608518285580', 60, 'kamamassara@hotmail.fr', 'brochettes', '13/07/2024', 0, 'terrak'),
-('613314100405', 61, 'e.aterrak@gmail.com', 'frites', '13/07/2024', 0, 'terrak'),
-('626137079022', 62, 'terrakadam@cy-tech.fr', 'burger', '13/07/2024', 0, 'terrak');
-
 -- --------------------------------------------------------
 
 --
@@ -66,9 +57,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `haswon`, `prize`, `récupéré`) VALUES
-(60, 'terrak', 'kamamassara@hotmail.fr', 1, 'brochettes', 0),
-(61, 'terrak', 'e.aterrak@gmail.com', 1, 'frites', 0),
-(62, 'terrak', 'terrakadam@cy-tech.fr', 1, 'burger', 0);
+(0, 'root', 'lorientalgrill95@gmail.com', 1, 'perdu', 1);
 
 --
 -- Index pour les tables déchargées
@@ -94,7 +83,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

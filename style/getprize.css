@@ -62,3 +62,58 @@ main {
   text-shadow: 3px 3px rgb(255, 145, 77);
   margin-bottom: 5%;
 }
+
+.container h2 {
+  text-align: center;
+  font-size: 4vw;
+}
+
+.container form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container button {
+  font-size: 4.5vw;
+  color: black;
+  text-shadow: 3.5px 3.5px white;
+  border: solid 3px black;
+  border-radius: 30px;
+  background-color: rgb(255, 145, 77);
+  text-align: center;
+  font-weight: 600;
+  width: 70%;
+  height: 15vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img[alt="prize"] {
+  width: 70%;
+}
+
+.error {
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+@media  (orientation:landscape) {
+  .error {
+    display: flex;
+  }
+
+  main {
+    display: none;
+  }
+}

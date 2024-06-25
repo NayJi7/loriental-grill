@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   go.addEventListener("click", () => {
     /*
+      A MODIFIER DANS ANGLE HANDLER AUSSI SI MODIF
+      
             0deg [360] = brochettes 
             60deg [360] = perdu
             120deg [360] = frites
@@ -45,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     go.innerHTML = "Ca tourne !";
 
     // Envoyer l'angle tourné au serveur
-    fetch("/php/angle_handler.php", {
+    fetch("./php/angle_handler.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.text())
       .then((data) => {
         console.log(data);
-        // Vous pouvez mettre à jour l'interface utilisateur ici en fonction de la réponse du serveur
       })
       .catch((error) => console.error("Erreur:", error));
   });

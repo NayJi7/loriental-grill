@@ -12,20 +12,25 @@
     $users = $userstatement->fetchAll();
 
     // Prepare and execute SQL statement to fetch likes of the current user
-    $arecupstatement = $mysqlClient->prepare('SELECT * FROM avis WHERE récupéré = 0');
-    $arecupstatement->execute();
-    $avisarecup = $arecupstatement->fetchAll();
+    $avisstatement = $mysqlClient->prepare('SELECT * FROM avis');
+    $avisstatement->execute();
+    $avis = $avisstatement->fetchAll();
 
-    $dejarecupstatement = $mysqlClient->prepare('SELECT * FROM avis WHERE récupéré = 1');
-    $dejarecupstatement->execute();
-    $avisdejarecup = $dejarecupstatement->fetchAll();
+    // Change the récupéré field to one if button clicked
+    if (isset($_POST['id'])) {
+        $updatestatement = $mysqlClient->prepare('UPDATE avis SET récupéré = 1 WHERE id = :id');
+        $updatestatement->execute([
+            'id' => $_POST['id'],
+        ]);
+        header("Location: ../index.php"); // Account connexion 
+    }
+
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>L'oriental Grill</title>
         <link rel="icon" href="../source/iconsite.png">
 
@@ -40,6 +45,10 @@
         <!-- Site conçu pour être utilisé sur mobile -->
     </head>
     <body>
+        <div class="error">
+            <h1>Ce site ne fonctionne que sur mobile en orientation portrait, <br>changez de support ou tournez votre téléphone pour continuer</h1>
+        </div>
+
         <?php require_once(__DIR__."/header.php") ?>
         <main>
             <video autoplay loop muted id="bgvideo">
@@ -47,9 +56,60 @@
             </video>
 
                 <div class="container">
-                    <h1>Mode Administrateur</h1>
+                    <?php if(!isset($_GET['id'])) :?>
+                        <h1>Oups ... <br>Ce lien n'a pas l'air valide</h1>
+                    <?php endif;?>
+
+                    <?php if(isset($_GET['id'])) :
+                        foreach ($avis as $avi) :
+                            $today = new DateTime();
+                            $date = DateTime::createFromFormat('j/m/Y', $avi['recup']);
+                            $expired = false;
+
+                            if ($date <= $today) {
+                                $expired = true;
+                            } else {
+                                $expired = false;
+                            }
+
+                            if($_GET['id'] === $avi['id'] && $avi['récupéré'] === 0 && $expired):?>
+                                <div class="infos">
+                                    <h1><?php echo $avi['user_name'].' n\'a pas pu récupérer : '.$avi['prize'];?></h1>
+                                    <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
+                                    <h2><mark><?php echo 'date limite dépassée : '.$avi['recup'];?></mark></h2>
+                                </div> 
+                                <img src="../source/<?php echo $avi['prize'].'.png';?>" alt="prize">
+                                <form action="getprize.php" method="post">
+                                    <button type="submit" name="id" value="<?php echo $avi['id'];?>">Valider</button>
+                                </form>
+
+                            <?php elseif($_GET['id'] === $avi['id'] && $avi['récupéré'] === 0):?>
+                                <div class="infos">
+                                    <h1><?php echo $avi['user_name'].' a gagné : '.$avi['prize'];?></h1>
+                                    <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
+                                    <h2><?php echo 'date limite : '.$avi['recup'];?></h2>
+                                </div>
+                                <img src="../source/<?php echo $avi['prize'].'.png';?>" alt="prize">
+                                <form action="getprize.php" method="post">
+                                    <button type="submit" name="id" value="<?php echo $avi['id'];?>">Valider</button>
+                                </form>
+
+                            <?php elseif($_GET['id'] === $avi['id'] && $avi['récupéré'] === 1):?>
+                                <div class="infos">
+                                    <h1><?php echo $avi['user_name'].' a déjà récupéré : '.$avi['prize'];?></h1>
+                                    <h2><?php echo 'id de commande : '.$avi['id'];?></h2>
+                                    <h2><?php echo 'date limite : '.$avi['recup'];?></h2>
+                                </div>
+                                <img src="../source/<?php echo $avi['prize'].'.png';?>" alt="prize">
+
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif;?>
+                        
                 </div>
 
-                
+        </main>
+        <?php require_once(__DIR__."/footer.php") ?>
+
     </body>
 </html>

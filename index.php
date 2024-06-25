@@ -19,12 +19,12 @@
             }
         }
 
-        if ($_SESSION['user']['haswon'] == 1) {
+        if ($_SESSION['user']['haswon'] == 1 && $_SESSION['user']['id'] != 0) {
             // Inclure la bibliothèque phpqrcode
             include 'phpqrcode/qrlib.php';
             
             // Le contenu du QR code
-            $content = 'https://www.example1.com?id='.$useravis['id'];
+            $content = './php/getprize.php?id='.$useravis['id'];
             
             // Le chemin où le fichier image du QR code sera sauvegardé
             $file = 'source/qrcode.png';
@@ -61,7 +61,7 @@
     </head>
     <body>
         <div class="error">
-            <h1>Ce site ne fonctionne qu'en orientation portrait, tournez votre téléphone pour continuer</h1>
+            <h1>Ce site ne fonctionne que sur mobile en orientation portrait, <br>changez de support ou tournez votre téléphone pour continuer</h1>
         </div>
         
         <?php require_once(__DIR__."/php/headerext.php"); ?>
@@ -73,10 +73,16 @@
                     <div class="box">
                     </div>
 
+                    <?php elseif($_SESSION['user']['id'] == 0): ?>
+                    <div class="box">
+                        <h1>Bonjour <?php echo $_SESSION['user']['username'];?> !</h1> 
+                        <button id="adminbtn"><a href="./php/admin.php">Mode admin</a></button>
+                    </div>
+
                     <?php elseif($_SESSION['user']['prize'] == "perdu"): ?>
                     <div class="box">
                         <h1>Dommage <?php echo $_SESSION['user']['username'];?> ! <br>Tu gagneras une <br> prochaine fois</h1> 
-                        <h2>Tu restes le bienvenu dans ton restaurants préféré quand même ! Recommande le à tes amis, ils te donneront peut-être une frite si ils gagnent ;)</h2>
+                        <h2>Tu restes le bienvenu dans ton restaurant préféré quand même ! Recommande le à tes amis, ils te donneront peut-être une frite si ils gagnent ;)</h2>
                         <img src="./source/perdu.png" alt="perdu">
                     </div>
 
@@ -136,7 +142,7 @@
                 <!-- redirect pour se connecter -->
 
             <!-- Utilisateur connecté n'ayant pas joué -->
-            <?php elseif(isset($_SESSION["user"]) && $_SESSION['user']['haswon']==0): ?>
+            <?php elseif(isset($_SESSION["user"]) && $_SESSION['user']['haswon'] === 0): ?>
 
                 <h1>Joue avec 3ami Farid et tente <br> de gagner un cadeau !</h1>
 

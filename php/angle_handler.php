@@ -13,12 +13,9 @@ header('Content-Type: application/json');
 $data = json_decode(file_get_contents('php://input'), true);
 $angle = $data['angle'] ?? null;
 
-if ($angle !== null) {
+if ($angle != null) {
     // Enregistrer l'angle dans la session ou dans une base de données
     $_SESSION['last_angle'] = $angle;
-
-    // Vous pouvez ajouter ici du code pour déterminer le prix gagné en fonction de l'angle
-    $prize = '';
 
     switch ($angle % 360) {
         case 0:
