@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # Application PHP/Apache
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=loriental_grill
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+    networks:
+      - loriental-network
+
+  # Base de données MySQL
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: loriental_grill
+      MYSQL_USER: loriental_user
+      MYSQL_PASSWORD: userpassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./loriental-grill.sql:/docker-entrypoint-initdb.d/loriental-grill.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - loriental-network
+
+  # phpMyAdmin pour gérer la base de données
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    depends_on:
+      - db
+    networks:
+      - loriental-network
+
+volumes:
+  mysql_data:
+
+networks:
+  loriental-network:
+    driver: bridge
